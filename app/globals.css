@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+@theme {
+  --font-syne: "Syne", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #09090b;
+  color: #fafafa;
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+::selection {
+  background: #06b6d4;
+  color: #09090b;
+}
+
+button, a, [role="button"] {
+  cursor: pointer;
+}
+
+*:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient {
+  animation: gradient-shift 4s ease-in-out infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-glow {
+  position: relative;
+}
+.section-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Floating orbs */
+@keyframes orb-float {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+.orb {
+  animation: orb-float 20s ease-in-out infinite;
+}
+.orb-slow {
+  animation: orb-float 30s ease-in-out infinite reverse;
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Spin */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+.spin-slow-reverse {
+  animation: spin-slow 20s linear infinite reverse;
+}
+
+/* Cursor blink */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Scan line */
+@keyframes scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+@keyframes scan3s {
+  0% { top: -10%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 110%; opacity: 0; }
+}
+
+/* Float */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes float4s {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Seamless section flow — all sections share the same deep background, no hard cuts */
+main > section {
+  position: relative;
+  background-color: transparent !important;
+}
+
+/* Hero section — extra breathing room */
+#hero {
+  border-bottom: 1px solid rgba(6, 182, 212, 0.06);
+}
+
+/* Contact section — subtle bottom glow */
+#contact {
+  border-top: 1px solid rgba(6, 182, 212, 0.04);
+  box-shadow: 0 -40px 80px -20px rgba(6, 182, 212, 0.03);
+}
+
+/* Gradient mesh — subtle atmospheric layer that drifts */
+@keyframes mesh-drift {
+  0%, 100% { opacity: 0.7; transform: scale(1) translate(0, 0); }
+  33% { opacity: 0.9; transform: scale(1.03) translate(-1%, 0.5%); }
+  66% { opacity: 0.5; transform: scale(0.98) translate(0.5%, -0.5%); }
+}
+.bg-mesh {
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(ellipse 80% 60% at 20% 30%, rgba(6, 182, 212, 0.05) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 80% 60%, rgba(167, 139, 250, 0.04) 0%, transparent 60%),
+              radial-gradient(ellipse 70% 40% at 50% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 60%);
+  animation: mesh-drift 25s ease-in-out infinite;
+}
+
+/* Section content containers — glass panels for readability */
+.section-content {
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(39, 39, 42, 0.5);
+}
+/* Hero photo — orb float */
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(15px, -20px) scale(1.05); }
+  66% { transform: translate(-10px, 10px) scale(0.95); }
+}
+
+/* Hero photo — scan line sweep */
+@keyframes scan {
+  0% { top: 0%; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
