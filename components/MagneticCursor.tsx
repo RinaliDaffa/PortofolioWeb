@@ -1,94 +1,107 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+
+const INTERACTIVE = "a, button, [role='button'], .magnetic-target";
+// Fraction of the remaining distance the ring closes per 60fps frame.
+// Converted to a time-based factor so it feels the same on 60/120/144Hz.
+const RING_FOLLOW = 0.28;
 
 export default function MagneticCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Only show on desktop
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Only on devices with a precise pointer (mouse / trackpad)
+    if (!window.matchMedia("(pointer: fine)").matches) return;
 
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
 
-    let ringX = 0, ringY = 0;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const root = document.documentElement;
+
     let mouseX = 0, mouseY = 0;
-    let animId: number;
+    let ringX = 0, ringY = 0;
+    let started = false;
+    let hovering = false;
+    let rafId = 0;
+    let last = performance.now();
+
+    const show = (on: boolean) => {
+      dot.dataset.visible = on ? "true" : "false";
+      ring.dataset.visible = on ? "true" : "false";
+    };
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      if (!isVisible) setIsVisible(true);
+      // Dot follows the pointer exactly — no easing, no CSS transition.
+      dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      if (!started) {
+        // Start the ring where the pointer is, not at (0,0).
+        ringX = mouseX;
+        ringY = mouseY;
+        started = true;
+        root.classList.add("custom-cursor");
+      }
+      show(true);
     };
 
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
-      animId = requestAnimationFrame(animate);
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 64); // clamp after tab switches
+      last = now;
+      if (started) {
+        const k = reduceMotion ? 1 : 1 - Math.pow(1 - RING_FOLLOW, dt / 16.667);
+        ringX += (mouseX - ringX) * k;
+        ringY += (mouseY - ringY) * k;
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+      }
+      rafId = requestAnimationFrame(tick);
     };
-    animId = requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(tick);
 
-    const onHoverIn = () => setIsHovering(true);
-    const onHoverOut = () => setIsHovering(false);
-
-    // Attach magnetic effect to interactive elements
-    const attachMagnetics = () => {
-      const targets = document.querySelectorAll("a, button, .magnetic-target");
-      targets.forEach((el) => {
-        el.addEventListener("mouseenter", onHoverIn);
-        el.addEventListener("mouseleave", onHoverOut);
-      });
+    // Event delegation instead of attaching listeners to every link
+    const onOver = (e: MouseEvent) => {
+      const isInteractive = !!(e.target as Element | null)?.closest?.(INTERACTIVE);
+      if (isInteractive !== hovering) {
+        hovering = isInteractive;
+        dot.dataset.hover = String(hovering);
+        ring.dataset.hover = String(hovering);
+      }
     };
+    const onLeaveWindow = () => show(false);
+    const onDown = () => (ring.dataset.down = "true");
+    const onUp = () => (ring.dataset.down = "false");
 
-    window.addEventListener("mousemove", onMove);
-    attachMagnetics();
-
-    // Re-attach on DOM changes
-    const observer = new MutationObserver(attachMagnetics);
-    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
+    document.documentElement.addEventListener("mouseleave", onLeaveWindow);
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(animId);
-      observer.disconnect();
+      document.removeEventListener("mouseover", onOver);
+      document.documentElement.removeEventListener("mouseleave", onLeaveWindow);
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
+      root.classList.remove("custom-cursor");
     };
-  }, [isVisible]);
+  }, []);
 
   return (
     <>
-      <div
-        ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9999] rounded-full transition-all duration-100"
-        style={{
-          width: isHovering ? 6 : 8,
-          height: isHovering ? 6 : 8,
-          backgroundColor: "#06b6d4",
-          marginLeft: -4,
-          marginTop: -4,
-          opacity: isVisible ? 1 : 0,
-          boxShadow: "0 0 8px #06b6d4",
-        }}
-      />
-      <div
-        ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] rounded-full transition-all duration-200"
-        style={{
-          width: isHovering ? 44 : 32,
-          height: isHovering ? 44 : 32,
-          border: "1.5px solid rgba(6,182,212,0.5)",
-          marginLeft: isHovering ? -22 : -16,
-          marginTop: isHovering ? -22 : -16,
-          opacity: isVisible ? 1 : 0,
-          backgroundColor: isHovering ? "rgba(6,182,212,0.06)" : "transparent",
-        }}
-      />
+      {/* Outer elements only move (transform set from JS, never transitioned).
+          Inner elements handle size/hover changes with a transform-only transition. */}
+      <div ref={dotRef} data-cursor="dot" data-visible="false" aria-hidden className="cursor-dot">
+        <span />
+      </div>
+      <div ref={ringRef} data-cursor="ring" data-visible="false" aria-hidden className="cursor-ring">
+        <span />
+      </div>
     </>
   );
 }

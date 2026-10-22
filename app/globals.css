@@ -40,6 +40,60 @@ button, a, [role="button"] {
   cursor: pointer;
 }
 
+/* ---------- Custom cursor ---------- */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.2s ease; /* never transition transform here */
+}
+.cursor-ring { z-index: 9998; }
+.cursor-dot[data-visible="true"],
+.cursor-ring[data-visible="true"] { opacity: 1; }
+
+.cursor-dot span,
+.cursor-ring span {
+  position: absolute;
+  border-radius: 9999px;
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+.cursor-dot span {
+  width: 8px; height: 8px; left: -4px; top: -4px;
+  background: #06b6d4;
+  box-shadow: 0 0 8px #06b6d4;
+}
+.cursor-ring span {
+  width: 32px; height: 32px; left: -16px; top: -16px;
+  border: 1.5px solid rgba(6, 182, 212, 0.5);
+}
+.cursor-dot[data-hover="true"] span { transform: scale(0.75); }
+.cursor-ring[data-hover="true"] span {
+  transform: scale(1.4);
+  background-color: rgba(6, 182, 212, 0.06);
+  border-color: rgba(6, 182, 212, 0.8);
+}
+.cursor-ring[data-down="true"] span { transform: scale(0.85); }
+
+/* Hide the native cursor only once the custom one is active (mouse devices) */
+@media (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor a,
+  html.custom-cursor button,
+  html.custom-cursor [role="button"] { cursor: none; }
+  html.custom-cursor input,
+  html.custom-cursor textarea,
+  html.custom-cursor select,
+  html.custom-cursor [contenteditable="true"] { cursor: text; }
+}
+@media (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
 *:focus-visible {
   outline: 2px solid #06b6d4;
   outline-offset: 2px;
