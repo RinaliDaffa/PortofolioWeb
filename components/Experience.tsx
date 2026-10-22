@@ -5,6 +5,22 @@ import { useRef } from "react";
 
 const experiences = [
   {
+    company: "PT Salam Pacific Indonesia Lines (SPIL)",
+    org: "AI Engineer Intern",
+    period: "Jul 2026 — Dec 2026",
+    location: "Surabaya, Indonesia",
+    description:
+      "Designing and building production-oriented AI, data, and software solutions that support digital transformation across enterprise operational workflows at an Indonesian shipping and logistics company.",
+    highlights: [
+      "Engineered end-to-end LLM-powered systems: data preparation, retrieval, prompt and inference pipelines, automated analysis, validation, and integration into user-facing apps",
+      "Designed and evaluated advanced RAG architectures — vector-based and vectorless retrieval — for enterprise document intelligence, cross-document analysis, and evidence-grounded decision support",
+      "Built intelligent document-processing workflows combining LLMs, NLP, semantic retrieval, classification, conflict detection, and legal/policy cross-referencing",
+      "Improved reliability through test-set development, automated testing, error analysis, output validation, and production-readiness audits — minimizing unsupported AI outputs",
+      "Supported the transition of AI prototypes into production-grade applications: architecture, modularity, documentation, deployment workflows, and handover to internal infrastructure",
+    ],
+    tags: ["LLMs", "RAG", "Document Intelligence", "NLP", "Evaluation", "Python"],
+  },
+  {
     company: "Artificial Intelligence Talent Factory (AITF)",
     org: "Ministry of Communication and Digital Affairs (Komdigi)",
     period: "Feb 2026 — Present",
@@ -20,8 +36,22 @@ const experiences = [
     tags: ["LLMs", "Machine Learning", "AI Engineering", "Python"],
   },
   {
+    company: "Undergraduate Researcher — LLM Fine-Tuning & MoE Adapters",
+    org: "Supervised by Prof. Ary M. Shiddiqi, Ph.D., IPM. — ITS",
+    period: "Jan 2026 — Present",
+    location: "Surabaya, Indonesia",
+    description:
+      "Applied research on parameter-efficient fine-tuning (PEFT) for large language models, as part of a research team at ITS.",
+    highlights: [
+      "Researching \"CONNEC LoRA\" (Low-Rank Adaptation) architectures to enhance PEFT capabilities in monolithic LLMs",
+      "Designing and evaluating Mixture-of-Experts (MoE) adapters to improve model scalability and domain-specific task performance",
+      "Investigating structural model-splitting strategies and efficient adapter deployment to streamline training and inference",
+    ],
+    tags: ["LoRA", "PEFT", "Mixture-of-Experts", "PyTorch", "Research"],
+  },
+  {
     company: "Himpunan Mahasiswa Teknik Komputer-Informatika (HMTC ITS)",
-    org: "Institut Teknologi Sepuluh Nopember",
+    org: "Staff → Head of Aspiration Bureau",
     period: "Mar 2025 — Present",
     location: "Surabaya, Indonesia",
     description:
@@ -35,7 +65,7 @@ const experiences = [
   },
   {
     company: "IRIS Robotic Team",
-    org: "Institut Teknologi Sepuluh Nopember",
+    org: "Internship — Robotics & Computer Vision",
     period: "Mar 2024 — Sep 2024",
     location: "Surabaya, Indonesia",
     description:
@@ -49,7 +79,7 @@ const experiences = [
   },
   {
     company: "Schematics — Bootcamp and Seminar of Technology (BST)",
-    org: "Institut Teknologi Sepuluh Nopember",
+    org: "Staff → Expert Staff",
     period: "2024 — 2025",
     location: "Surabaya, Indonesia",
     description:

@@ -28,8 +28,8 @@ const highlights = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
       </svg>
     ),
-    title: "Research-Driven",
-    desc: "Currently contributing to ITS Intelligence Hub — indexing 48K+ research papers with hybrid search and AI-powered Q&A.",
+    title: "Industry & Research",
+    desc: "AI Engineer Intern at SPIL building enterprise RAG systems, and undergraduate researcher on LoRA / MoE adapters for LLMs.",
   },
   {
     icon: (
@@ -97,9 +97,10 @@ export default function About() {
                 that actually work at scale, not just in demos.
               </p>
               <p>
-                Currently, I&apos;m working on the{" "}
-                <span className="text-[#fafafa] font-medium">ITS Intelligence Hub</span>,
-                an AI-powered knowledge platform for the university, and participating in
+                Currently, I&apos;m an{" "}
+                <span className="text-[#fafafa] font-medium">AI Engineer Intern at PT Salam Pacific Indonesia Lines (SPIL)</span>,
+                building LLM and RAG systems for enterprise document intelligence. Alongside that, I
+                research parameter-efficient LLM fine-tuning (LoRA &amp; MoE adapters) at ITS and take part in
                 the <span className="text-[#fafafa] font-medium">AITF program by Komdigi</span>,
                 Indonesia&apos;s Ministry of Communication and Digital Affairs.
               </p>

@@ -74,7 +74,7 @@ export default function Hero() {
             <motion.div variants={item} className="mb-6 inline-flex">
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#27272a] bg-[#18181b]/60 text-xs text-[#a1a1aa] backdrop-blur-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
-                Informatics @ ITS — Class of 2027
+                AI Engineer Intern @ SPIL · Informatics @ ITS
               </span>
             </motion.div>
 
@@ -100,8 +100,9 @@ export default function Hero() {
               className="text-lg text-[#a1a1aa] leading-relaxed mb-10 max-w-2xl"
             >
               Building data-driven systems and AI-powered applications from Surabaya.
-              Currently researching applied ML at ITS, building enterprise AI tools, and
-              contributing to national digital initiatives.
+              Currently an AI Engineer Intern at SPIL building enterprise RAG and
+              document-intelligence systems, researching LLM fine-tuning at ITS, and
+              part of Komdigi&apos;s national AI Talent Factory.
             </motion.p>
 
             {/* CTAs */}

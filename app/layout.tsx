@@ -22,7 +22,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Daffa Rinali — Informatics Student & AI Developer",
   description:
-    "Portfolio of Daffa Rinali — Informatics student at ITS Surabaya specializing in AI, data science, and full-stack development.",
+    "Portfolio of Daffa Rinali — AI Engineer Intern at SPIL and Informatics student at ITS Surabaya, specializing in AI, LLM/RAG systems, data science, and full-stack development.",
   keywords: [
     "Daffa Rinali",
     "ITS Surabaya",

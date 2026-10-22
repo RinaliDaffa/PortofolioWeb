@@ -8,6 +8,7 @@ import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
 import ScrollProgress from "@/components/ScrollProgress";
+import MagneticCursor from "@/components/MagneticCursor";
 
 export default function Home() {
   return (

@@ -7,7 +7,8 @@ const education = {
   institution: "Institut Teknologi Sepuluh Nopember (ITS)",
   degree: "Informatics Engineering",
   major: "Informatics Engineering",
-  period: "2023 — 2027",
+  period: "2023 — Present",
+  gpa: "GPA 3.68 / 4.00",
   courses: [
     "Data Structures & Algorithms",
     "Machine Learning",
@@ -19,6 +20,8 @@ const education = {
     "Statistics & Probability",
   ],
   achievements: [
+    "AI Engineer Intern at PT Salam Pacific Indonesia Lines (SPIL)",
+    "Undergraduate researcher on LoRA & MoE adapters under Prof. Ary M. Shiddiqi",
     "Selected for AITF — national AI talent program by Komdigi",
     "Head of Aspiration Bureau, HMTC ITS",
     "IRIS Robotic Team — OpenCV & ROS",
@@ -62,6 +65,7 @@ export default function Education() {
               <p className="text-[#71717a] text-sm mt-0.5">{education.major}</p>
               <div className="flex items-center gap-3 mt-2 flex-wrap">
                 <span className="text-xs text-[#52525b]">{education.period}</span>
+                <span className="px-2.5 py-1 rounded-full text-xs text-[#06b6d4] bg-[#06b6d4]/10 border border-[#06b6d4]/20">{education.gpa}</span>
                               </div>
             </motion.div>
 
